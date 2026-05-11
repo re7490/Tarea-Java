@@ -87,6 +87,40 @@ public class Main{
                 }
             } else if (eleccion.equals("3")) {
                 Cloud.mostrarMochila();
+                if (!Cloud.getMochila().isEmpty()) {
+                    System.out.println("\n¿Que deseas hacer?");
+                    System.out.println("1. Equipar una materia | 2. Desequipar una materia | 0. Volver");
+                    System.out.print("Eleccion: ");
+                    String subEleccion = scanner.nextLine();
+
+                    if (subEleccion.equals("1") || subEleccion.equals("2")) {
+                        System.out.print("Selecciona el número de la materia: ");
+                        try {
+                            int idx = Integer.parseInt(scanner.nextLine()) - 1;
+                            if (idx >= 0 && idx < Cloud.getMochila().size()) {
+                                Materia seleccionada = Cloud.getMochila().get(idx);
+
+                                if (subEleccion.equals("1")) { //equipar
+                                    if (!seleccionada.isEquipado()) {
+                                        Cloud.getBusterSword().equiparMateria(seleccionada);
+                                    } else {
+                                        System.out.println("La materia ya esta equipada.");
+                                    }
+                                } else { //desequipar
+                                    if (seleccionada.isEquipado()) {
+                                        Cloud.getBusterSword().desequiparMateria(seleccionada);
+                                    } else {
+                                        System.out.println("La materia no estaa equipada.");
+                                    }
+                                }
+                            } else {
+                                System.out.println("Numero fuera de rango.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Entrada no valida. Por favor, ingresa un numero.");
+                        }
+        }
+                }
             }else if(eleccion.equals("4") && zonaActual instanceof Sector7){
                 System.out.println("Te sientas cerca de una hoguera y duermes... Te despiertas sintiéndote renovado.");
                 Cloud.setHpActual(Cloud.getHpMaximo());

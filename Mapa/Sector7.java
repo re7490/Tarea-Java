@@ -109,6 +109,7 @@ public class Sector7 extends Zona{
                     Cloud.getStats().setMpActual(Cloud.getMpActual() - 15);
                     System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
                     turnoFinalizado = true;
+                    Cloud.getMochila().removeIf(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA);
                 } else if (!tieneCura) {
                     System.out.println("No tienes la Materia de Curación en tu mochila.");
                 } else {
@@ -177,7 +178,7 @@ public class Sector7 extends Zona{
             
             if (entrada.equals("0")) {
                 enTienda = false;
-                System.out.println("'Espero vuelvas pronto para comprar algo muchacho, no dejes que esa cara de pobre te detenga jejeje.'");
+                System.out.println("'Espero vuelvas pronto para comprar algo muchacho, no dejes que esa cara de pobre te detenga jejeje.'\n");
             } else {
                 try {
                     int seleccion = Integer.parseInt(entrada) - 1;

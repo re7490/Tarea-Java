@@ -50,10 +50,10 @@ public class NucleoPlaneta extends Zona{
             respuesta = scanner.nextLine();
         }
         if (respuesta.equalsIgnoreCase("s")) {
-            System.out.println("Aceptas la propuesta de Sephiroth. Te retiras de la Zona para prepararte mejor.");
+            System.out.println("Aceptas la propuesta de Sephiroth. Te retiras de la Zona del combate para prepararte mejor.\n");
             return; // Salir del método para permitir que el jugador se prepare
         } 
-        System.out.println("Rechazas la propuesta... Sephiroth sonrie levemente y avanza lentamente hacia ti... te desea suerte...");
+        System.out.println("Rechazas la propuesta... Sephiroth sonrie levemente y avanza lentamente hacia ti... te desea suerte...\n");
         while (Cloud.getStats().getHpActual() > 0 && sephiroth.getStats().getHpActual() > 0) {
 
             System.out.println(sephiroth.getNombre() + " HP: " + sephiroth.getStats().getHpActual() + "/" + sephiroth.getStats().getHpMaximo() + " | Supernova: " + sephiroth.getContadorSuperNova() + "/10");
@@ -135,6 +135,7 @@ public class NucleoPlaneta extends Zona{
                     Cloud.getStats().setMpActual(Cloud.getMpActual() - 15);
                     System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
                     turnoFinalizado = true;
+                    Cloud.getMochila().removeIf(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA);
                 } else if (!tieneCura) {
                     System.out.println("No tienes la Materia de Curación en tu mochila.");
                 } else {
@@ -153,7 +154,7 @@ public class NucleoPlaneta extends Zona{
                 }
             } else if (eleccion.equals("0")){
                 Random rand = new Random();
-                System.out.println("Sephiroth te mira.... y no le agrada que intentes huir.... te ve como alguien cobarda y debil.... aunque igual te dara la oportunidad de escapar....aunque no sera tan facil como antes...");
+                System.out.println("Sephiroth te mira.... y no le agrada que intentes huir.... te ve como alguien cobarde y debil.... aunque igual te dara la oportunidad de escapar....aunque no sera tan facil como antes...");
                 if (rand.nextInt(100) < 30) { 
                     System.out.println("Mientras huyes, Sephiroth lanza un ataque sorpresa que te golpea por la espalda, causandote 65 de daño.");
                     Cloud.getStats().recibirDMG(65);
@@ -170,8 +171,9 @@ public class NucleoPlaneta extends Zona{
                 System.out.println("Cloud mira hacia el cielo... derroto a Septhiroth... ya nadie mas correra peligro.... Sonrie con tranquilidad y se desploma en el suelo del cansancio.");
                 System.out.println("¡FELICIDADES! HAS COMPLETADO EL JUEGO.");
                 System.exit(0); 
-            } else {
+            } else if(Cloud.getStats().getHpActual() <= 0) {
                 System.out.println("Has caido en el combate... no has sido lo suficientemente fuerte... pero el destino te da otra oportunidad para lograr tu objetivo");
+                sephiroth.reiniciarContador();
                 Cloud.setChatarra(0); 
                 Cloud.getMochila().removeIf(m -> !m.isEquipado()); //adios a todo lo que no estaba equipado, excepto armas y materias
                 return;

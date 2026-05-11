@@ -234,6 +234,7 @@ public class Gongaga extends Zona{
                     Cloud.getStats().setMpActual(Cloud.getMpActual() - 15);
                     System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
                     turnoFinalizado = true;
+                    Cloud.getMochila().removeIf(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA);
                 } else if (!tieneCura) {
                     System.out.println("No tienes la Materia de Curación en tu mochila.");
                 } else {

@@ -75,7 +75,8 @@ public class Jugador{
             System.out.println("Mochila:");
             for (int i = 0; i < mochila.size(); i++) {
                 Materia materia = mochila.get(i);
-                System.out.println((i + 1) + ". " + materia.getNombre() + " (Elemento: " + materia.getElemento() + ")");
+                String estado = materia.isEquipado() ? " [EQUIPADA]" : "[NO EQUIPADA]";
+                System.out.println((i + 1) + ". " + materia.getNombre() + " (Elemento: " + materia.getElemento() + ")" + estado);
             }
         }
     }
@@ -122,6 +123,25 @@ public class Jugador{
         public int calcularDanoLimite(){ //ataque limite (devastador)
             limiteActual = 0;
             return stats.getFuerza() * 5;
+        }
+
+        public void equiparMateria(Materia materia){
+            if (materiasEquipadas.size() < 5) {
+                materiasEquipadas.add(materia);
+                System.out.println("Materia " + materia.getNombre() + " equipada en " + nombre + ".");
+                materia.setEquipado(true);
+            } else {
+                System.out.println("El arma esta llena!! No puedes equipar más de 5 materias.");
+            }
+        }
+
+        public void desequiparMateria(Materia m) {
+            if (materiasEquipadas.remove(m)) {
+                m.setEquipado(false);
+                System.out.println("Has desequipado " + m.getNombre() + " de la " + this.nombre);
+            } else {
+                System.out.println("Esa materia no esta equipada en el arma.");
+            }
         }
 
     }
