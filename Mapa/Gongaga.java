@@ -282,7 +282,7 @@ public class Gongaga extends Zona{
 
         if (Cloud.getHpActual() <= 0) {
             System.out.println("Has caído ante la emboscada... Pierdes todo lo de tu mochila... excepto la Buster Sword y las materias equipadas");
-            Cloud.setChatarra(0); // Pierdes la mitad de tu chatarra al morir
+            Cloud.setChatarra(0); 
             Cloud.getMochila().removeIf(m -> !m.isEquipado()); //adios a todo lo que no estaba equipado, excepto armas y materias
             return;
         }
