@@ -108,9 +108,7 @@ public class Jugador{
             if (costeMP > stats.getMpActual()) return 0;
 
             int danoMagico = (int) (stats.getMagia() * (1 + (n/2)));
-            
-            int multiplicador = 1; 
-            danoMagico = (int) (danoMagico * multiplicador); //daño final
+        
             stats.setMpActual(stats.getMpActual() - costeMP); //aplicamos coste  dataque
             return danoMagico;
         }
@@ -128,7 +126,7 @@ public class Jugador{
         public void equiparMateria(Materia materia){
             if (materiasEquipadas.size() < 5) {
                 materiasEquipadas.add(materia);
-                System.out.println("Materia " + materia.getNombre() + " equipada en " + nombre + ".");
+                System.out.println(materia.getNombre() + " equipada en " + nombre + ".");
                 materia.setEquipado(true);
             } else {
                 System.out.println("El arma esta llena!! No puedes equipar más de 5 materias.");

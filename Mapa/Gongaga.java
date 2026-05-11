@@ -190,11 +190,20 @@ public class Gongaga extends Zona{
                                         Elemento elegido = elementosDisponibles.get(selElemento - 1);
                                         
                                         int danoMagico = Cloud.getBusterSword().calcularDanoMagico(elegido);
+                                        EnemigoSalvaje enemigoObjetivo = (EnemigoSalvaje) objetivo; //casteo a EnemigoSalvaje netamente para acceder a evaluarDebilidad 
+                                        double multiplicador = enemigoObjetivo.evaluarDebilidad(elegido);
 
                                         if (danoMagico > 0) {
-                                            objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - danoMagico);
+                                            int danoFinal = (int) (danoMagico * multiplicador); //daño final con multiplicador de debilidad/resistencia/inmunidad
+                                            objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - danoFinal);
                                             System.out.println("¡Lanzas un hechizo de " + elegido + "!");
-                                            System.out.println("Causas " + danoMagico + " de daño mágico.");
+                                            if (multiplicador == 0.0) {
+                                                System.out.println("¡" + objetivo.getNombre() + " es inmune a este elemento! No le haces daño.");
+                                            } else if (multiplicador == 0.5) {
+                                                System.out.println("¡" + objetivo.getNombre() + " resiste este elemento! Le haces menos daño de lo normal...Causas " + danoFinal +"/" + danoMagico + " de daño mágico.");
+                                            } else if (multiplicador == 2.0) {
+                                                System.out.println("¡" + objetivo.getNombre() + " es debil a este elemento! Le haces más daño de lo normal...Causas " + danoFinal + "/" + danoMagico + " de daño mágico.");
+                                            }
                                             turnoFinalizado = true;
                                         } else {
                                             System.out.println("No tienes suficiente MP para este hechizo.");
