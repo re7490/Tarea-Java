@@ -105,11 +105,17 @@ public class NucleoPlaneta extends Zona{
                             
                             int danoMagico = Cloud.getBusterSword().calcularDanoMagico(elegido);
 
-                            if (danoMagico > 0) {
+                            if (elegido == Elemento.CURA) {
+                                int cura = danoMagico;
+                                Cloud.getStats().setHpActual(Math.min(Cloud.getHpActual() + cura, Cloud.getHpMaximo()));
+                                System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
+                                turnoFinalizado = true;
+                            } else if (danoMagico > 0) {
                                 sephiroth.getStats().setHpActual(sephiroth.getStats().getHpActual() - danoMagico);
                                 System.out.println("¡Lanzas un hechizo de " + elegido + "!");
                                 System.out.println("Causas " + danoMagico + " de daño mágico.");
                                 turnoFinalizado = true;
+                                Cloud.sumarLimite(danoMagico / 2);
                             } else {
                                 System.out.println("No tienes suficiente MP para este hechizo.");
                             }

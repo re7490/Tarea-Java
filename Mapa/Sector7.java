@@ -32,7 +32,7 @@ public class Sector7 extends Zona{
 
             System.out.println(soldadoComun.getNombre() + " HP: " + soldadoComun.getStats().getHpActual() + "/" + soldadoComun.getStats().getHpMaximo());
             System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Cloud.getLimiteActual() + "/100");
-            System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 ? " (Disponible)" : " (No disponible)") + 
+            System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 && !Cloud.getBusterSword().getMateriasEquipadas().isEmpty() ? " (Disponible)" : " (No disponible)") + 
             "| 3. Curarse " + (Cloud.getMpActual() >= 15 && Cloud.getMochila().stream().anyMatch(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA) ? " (Disponible)" : " (No disponible)") +
             "| 4. Ataque limite" + (Cloud.getLimiteActual() >= 100 ? " (Disponible)" : " (No disponible)") + "| 0. Huir");
 
@@ -79,10 +79,16 @@ public class Sector7 extends Zona{
                             
                             int danoMagico = Cloud.getBusterSword().calcularDanoMagico(elegido);
 
-                            if (danoMagico > 0) {
+                            if (elegido == Elemento.CURA) {
+                                int cura = danoMagico;
+                                Cloud.getStats().setHpActual(Math.min(Cloud.getHpActual() + cura, Cloud.getHpMaximo()));
+                                System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
+                                turnoFinalizado = true;
+                            } else if (danoMagico > 0) {
                                 soldadoComun.getStats().setHpActual(soldadoComun.getStats().getHpActual() - danoMagico);
                                 System.out.println("¡Lanzas un hechizo de " + elegido + "!");
                                 System.out.println("Causas " + danoMagico + " de daño mágico.");
+                                Cloud.sumarLimite(danoMagico / 2);
                                 turnoFinalizado = true;
                             } else {
                                 System.out.println("No tienes suficiente MP para este hechizo.");
