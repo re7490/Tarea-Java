@@ -115,7 +115,6 @@ public class Sector7 extends Zona{
                 } else {
                     System.out.println("MP insuficiente para curar.");
                 }
-
             } else if (eleccion.equals("4")) {
                 if (Cloud.getLimiteActual() >= 100) {
                     int danoLimite = Cloud.getBusterSword().calcularDanoLimite();
