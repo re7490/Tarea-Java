@@ -130,7 +130,7 @@ public class Sector7 extends Zona{
                 else { System.out.println("¡No pudiste escapar! El combate continúa."); turnoFinalizado = true; }
             }
 
-            if (turnoFinalizado && soldadoComun.getStats().getHpActual() > 0) {
+            if (turnoFinalizado) {
                 if (soldadoComun.getStats().getHpActual() > 0){
                     Random r = new Random();
                     int probAtaque = r.nextInt(100);
