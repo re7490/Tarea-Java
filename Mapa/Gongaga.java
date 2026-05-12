@@ -136,7 +136,7 @@ public class Gongaga extends Zona{
                 Enemigo e = enemigos.get(i);
                 System.out.println((i + 1) + ". " + e.getNombre() + " (HP: " + e.getStats().getHpActual() + "/" + e.getStats().getHpMaximo() + ")");
             }
-            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Math.min(Cloud.getLimiteActual(), 100) + "/100");
+            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Cloud.getLimiteActual() + "/100");
             System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 ? " (Disponible)" : " (No disponible)") + 
             "| 3. Curarse " + (Cloud.getMpActual() >= 15 && Cloud.getMochila().stream().anyMatch(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA) ? " (Disponible)" : " (No disponible)") +
             "| 4. Ataque limite" + (Cloud.getLimiteActual() >= 100 ? " (Disponible)" : " (No disponible)") + "| 0. Huir");
@@ -292,8 +292,6 @@ public class Gongaga extends Zona{
 
         if (Cloud.getHpActual() <= 0) {
             System.out.println("Has caído ante la emboscada... Pierdes todo lo de tu mochila... excepto la Buster Sword y las materias equipadas");
-            Cloud.setChatarra(0); 
-            Cloud.getMochila().removeIf(m -> !m.isEquipado()); //adios a todo lo que no estaba equipado, excepto armas y materias
             return;
         }
     }

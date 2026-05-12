@@ -14,7 +14,7 @@ public class Sephiroth extends Enemigo{
     }
 
     public int getContadorSuperNova() { return this.contadorSuperNova; }
-    public void setContadorSuperNova() { this.contadorSuperNova++; }
+    public void setContadorSuperNova(int aumento) { this.contadorSuperNova += aumento; }
 
     public void lanzarSuperNova(Jugador Cloud){
         Cloud.getStats().recibirDMG(9999); // Daño masivo

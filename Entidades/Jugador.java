@@ -82,7 +82,15 @@ public class Jugador{
     }
     
     public void sumarLimite(int cantidad) {
-        this.limiteActual = Math.min(this.limiteActual + cantidad, 100);
+        if (this.limiteActual <= 100) {
+            this.limiteActual += cantidad;
+            if (this.limiteActual > 100) {
+                this.limiteActual = 100;
+            }
+        }
+        else {
+            this.limiteActual = 100;
+        }
     }
 
     public class Arma {
@@ -114,7 +122,7 @@ public class Jugador{
         }
         public int calcularDanoFisico(){
             int dano = (int) (stats.getFuerza() * 1.25);
-            limiteActual += (int) (dano/5);
+            sumarLimite((int) (dano/5));
             return dano;
         }
         

@@ -24,14 +24,14 @@ public class Sector7 extends Zona{
 
         System.out.println("\nTe has encontrado con un " + soldadoComun.getNombre() + "!");
 
-        System.out.println("El " + soldadoComun.getNombre() + "te saluda: 'Hola quien quiera que seas, te ves algo fuerte");
+        System.out.println("El " + soldadoComun.getNombre() + " te saluda: 'Hola quien quiera que seas, te ves algo fuerte");
         System.out.println("lo suficiente para poder practicar mis nuevas habilidades de combate. Peleemos, te dare la ventaja de atacar primero.'");
 
         Scanner scanner = new Scanner(System.in);
         while (Cloud.getHpActual() > 0 && soldadoComun.getStats().getHpActual() > 0) {
 
             System.out.println(soldadoComun.getNombre() + " HP: " + soldadoComun.getStats().getHpActual() + "/" + soldadoComun.getStats().getHpMaximo());
-            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Math.min(Cloud.getLimiteActual(), 100) + "/100");
+            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Cloud.getLimiteActual() + "/100");
             System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 ? " (Disponible)" : " (No disponible)") + 
             "| 3. Curarse " + (Cloud.getMpActual() >= 15 && Cloud.getMochila().stream().anyMatch(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA) ? " (Disponible)" : " (No disponible)") +
             "| 4. Ataque limite" + (Cloud.getLimiteActual() >= 100 ? " (Disponible)" : " (No disponible)") + "| 0. Huir");
@@ -130,7 +130,7 @@ public class Sector7 extends Zona{
                 else { System.out.println("¡No pudiste escapar! El combate continúa."); turnoFinalizado = true; }
             }
 
-            if (turnoFinalizado){
+            if (turnoFinalizado && soldadoComun.getStats().getHpActual() > 0) {
                 if (soldadoComun.getStats().getHpActual() > 0){
                     Random r = new Random();
                     int probAtaque = r.nextInt(100);

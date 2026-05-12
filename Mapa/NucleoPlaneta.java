@@ -57,7 +57,7 @@ public class NucleoPlaneta extends Zona{
         while (Cloud.getStats().getHpActual() > 0 && sephiroth.getStats().getHpActual() > 0) {
 
             System.out.println(sephiroth.getNombre() + " HP: " + sephiroth.getStats().getHpActual() + "/" + sephiroth.getStats().getHpMaximo() + " | Supernova: " + sephiroth.getContadorSuperNova() + "/10");
-            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Math.min(Cloud.getLimiteActual(), 100) + "/100");
+            System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Cloud.getLimiteActual() + "/100");
             System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 ? " (Disponible)" : " (No disponible)") + 
             "| 3. Curarse " + (Cloud.getMpActual() >= 15 && Cloud.getMochila().stream().anyMatch(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA) ? " (Disponible)" : " (No disponible)") +
             "| 4. Ataque limite" + (Cloud.getLimiteActual() >= 100 ? " (Disponible)" : " (No disponible)") + "| 0. Huir");
@@ -153,18 +153,26 @@ public class NucleoPlaneta extends Zona{
                     System.out.println("Barra de Límite insuficiente.");
                 }
             } else if (eleccion.equals("0")){
-                Random rand = new Random();
-                System.out.println("Sephiroth te mira.... y no le agrada que intentes huir.... te ve como alguien cobarde y debil.... aunque igual te dara la oportunidad de escapar....aunque no sera tan facil como antes...");
-                if (rand.nextInt(100) < 30) { 
-                    System.out.println("Mientras huyes, Sephiroth lanza un ataque sorpresa que te golpea por la espalda, causandote 65 de daño.");
-                    Cloud.getStats().recibirDMG(65);
-                    System.out.println("Si bien lograste escapar... no puedes evitar sentir la presencia de Sephirtoh acechandote...tal vez no tendras suerte la proxima vez...");                                        
-                    return; 
-                } else { 
-                    System.out.println("Aunque intentaste huir no lo lograste.... Sephiroth te mira con decepcion.... tal vez esperaba demasiado de ti");
-                    System.out.println("El contador de Supernova de Sephiroth se incrementa por tu intento de huida... cuidado con eso...");
-                    sephiroth.setContadorSuperNova();
-                    turnoFinalizado = true; }
+                System.out.println("Sephiroth te mira.... y no le agrada que intentes huir.... te ve como alguien cobarde y debil.... aunque igual te dara la oportunidad de escapar....aunque no sera tan facil como antes...\nPresiona Enter para intentar huir...");
+                scanner.nextLine();
+                System.out.println("Intentas huir...\nPreiona Enter para continuar...");
+                scanner.nextLine();
+                System.out.println("'...En verdad creiste que podrias huir?... tuve misericordia al ofrecerte volver... y no aceptaste... no eres mas que un ser insignificante...'");
+                System.out.println("Sephiroth te ataca por intentar huir...quedas tumbado en el suelo... tal parece que no puedes escapar de su alcance...Recibes 100 de daño por intentar huir...");
+                Cloud.getStats().recibirDMG(100); System.out.println("Precion Enter para continuar..."); scanner.nextLine();
+                if (Cloud.getHpActual() > 0) {
+                    System.out.println("Te has salvado de morir por intentar huir... pero Sephiroth te mira fijamente.... '¿Quieres intenarlo con mas ganas esta vez?'... Intentarlo (s) | Rechazar oferta (n)"); String escape = scanner.nextLine();
+                    if (escape.equals("s")){
+                        System.out.println("Te levantas como puedes... tomas tu espada e intentas huir otra vez... corres lo mas rapido que puedes... pero Sephiroth es mas rapido que tu... Recibes 270 de daño por intentar huir otra vez...\n 'Entiende tu lugar, escoria'"); Cloud.getStats().recibirDMG(270); System.out.println("Precion Enter para continuar..."); scanner.nextLine();
+                    } else {
+                        System.out.println("Tomas tu espada y te levantas a duras penas apoyandote en ella... te pones em guardia, levantas tu espada y miras fijamente a Sephiroth sin decir nada... Sephiroth te observa... se le dibuja una leve sonrisa en su rostro... 'Parece que aprendiste'...'"); System.out.println("Precion Enter para continuar el combate..."); scanner.nextLine();
+                    }
+                }
+                System.out.println("El contador de Supernova de Sephiroth se incrementa por tu intento de huida... cuidado con eso...");
+                System.out.println("Y por si no fuera suficiente... se cura sus herida");
+                sephiroth.getStats().setHpActual(Math.min(sephiroth.getStats().getHpActual() + 170, sephiroth.getStats().getHpMaximo()));
+                sephiroth.setContadorSuperNova(3); //aumentamos en 3 el contador
+                turnoFinalizado = true; 
             }
             if (sephiroth.getStats().getHpActual() <= 0) {
                 System.out.println("\n¡SEPHIROTH HA SIDO DERROTADO!");
@@ -174,8 +182,6 @@ public class NucleoPlaneta extends Zona{
             } else if(Cloud.getStats().getHpActual() <= 0) {
                 System.out.println("Has caido en el combate... no has sido lo suficientemente fuerte... pero el destino te da otra oportunidad para lograr tu objetivo");
                 sephiroth.reiniciarContador();
-                Cloud.setChatarra(0); 
-                Cloud.getMochila().removeIf(m -> !m.isEquipado()); //adios a todo lo que no estaba equipado, excepto armas y materias
                 return;
             }
             if (turnoFinalizado && sephiroth.getStats().getHpActual() > 0) {

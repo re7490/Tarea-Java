@@ -34,17 +34,83 @@ public class Main{
             input = scanner.nextLine().charAt(0);
         }
         if (input == '0') {
-            System.out.println("Juego no iniciado. ¡Hasta luego!");
-            return; //salimos
+            System.out.println("Por alguna extraña razon decidiste.... no iniciar el juego... ¿¡¡Por que harias eso!!?....presiona Enter para salir..."); scanner.nextLine();
+            System.out.println("...Bueno........ ehhh, en verdad no entiendo por que..... por que elegir esta opcion??...presiona Enter para salir"); scanner.nextLine();
+            System.out.println("...En fin... supongo que no quieres jugar... bueno, adios... Enter para salir"); scanner.nextLine();
+            System.out.println("... Pero a veces uno comete errores... no?... seguramente te equivocaste al presionar las teclas.... despues de todo el 1 y el 0 estan muy juntos.... y se parecen...\nA quien engañamos!?!? Por que no querer ejecutar el juego? :,(   Enter para salir"); scanner.nextLine();
+            System.out.println(".............aahhhh........ esperas que en verdad se cierre el juego..... pero no lo has jugado.... mmhhh..... dejame pensarlo...Presiona Enter para continuar...(veamos cuando me aburro de escribir)"); scanner.nextLine();            
+            System.out.println(".........."); scanner.nextLine();
+            System.out.println("........."); scanner.nextLine();
+            System.out.println("......."); scanner.nextLine();
+            System.out.println("....."); scanner.nextLine();
+            System.out.println("..."); scanner.nextLine();
+            System.out.println(".."); scanner.nextLine();
+            System.out.println("."); scanner.nextLine();
+            System.out.println("...Bueno.... si no querias comerte eso.... haber apretado 1.... no?"); scanner.nextLine();
+            System.out.println("....."); scanner.nextLine();
+            System.out.println("...si...... me estoy quedando sin ideas....aahh, ya se..... que tal una trivia de... una pregunta...."); scanner.nextLine();
+            System.out.println("¿Te quivocaste al presionar el numero? (s/n)\nRespuesta: "); String respuesta = scanner.nextLine();
+            while (!respuesta.equals("s") && !respuesta.equals("n")) {
+                System.out.println("Eeehhh.... es s para si y n para no.... no es tan complicado.... creo.... no soy quien para juzgar a nadie....");scanner.nextLine();
+                System.out.println("bueno, te lo preguntare de nuevo.... ¿Te quivocaste al presionar el numero? (s/n)\nRespuesta: ");
+                respuesta = scanner.nextLine();
+            }
+            if (respuesta.equals("s")) {
+                System.out.println("¡Ahhh!.... ves como lo sabia?? (es obvio que no te equivocaste.... pero bueno....) entonces... supondre que quieres jugar el juego, no es cierto? (s/n)"); respuesta = scanner.nextLine();
+                while (!respuesta.equals("s") && !respuesta.equals("n")) {
+                    System.out.println("Eeehhh.... es s para si y n para no....\nrespuesta: ");
+                    respuesta = scanner.nextLine();
+                }
+                if (respuesta.equals("s")) {
+                    System.out.println("¡Perfecto!.... entonces... dejemos los rodeos"); 
+                } else {
+                    System.out.println("Oh... veo que aun no quieres iniciar el juego.... dejame pensar que hago...... deberia permitirte Salir de esto? (s/n)"); respuesta = scanner.nextLine();
+                    if (respuesta.equals("s")) {
+                        System.out.println(".... por que?.... me ofende que no quieras iniciar el juego..... me entristece... asterisco se entristece asterisco...."); scanner.nextLine();
+                        System.out.println("...era asi como era no? asterisco pone cara de duda asterisco"); scanner.nextLine();
+                        System.out.println("..... buee.... para que engañarnos... eso fue raro... fue..... nose...."); scanner.nextLine();
+                        System.out.println("...en fin... ultima oportunidad para iniciar el juego.... quieres hacerlo? (s/n)"); respuesta = scanner.nextLine();
+                        while (!respuesta.equals("s") && !respuesta.equals("n")) {
+                            System.out.println("Eeehhh.... es s para si y n para no.... recuerdalo -_- .... es como la 3ra vez....");scanner.nextLine();
+                            respuesta = scanner.nextLine();
+                        }
+                        if (respuesta.equals("s")) {
+                            System.out.println("¡Genial!.... entonces no te molesto mas con esto"); 
+                        } else {
+                            System.out.println("Bueno... no digamos que no lo intente... supongo que... respetare tu decision...  Presiona Enter para salir..."); System.exit(0); ;
+                        }
+                    } else {
+                        System.out.println("...ehhh.... la verdad... no esperaba esa respuesta... ehhh... bueno... me quede sin ideas... adios  "); System.exit(0); ;
+                    }
+                }
+            } else {
+                System.out.println("Oh... entonces de verdad que no quieres iniciarlo..."); scanner.nextLine();
+                System.out.println("...Bueno, supongo que... no puedo obligarte... verdad?"); scanner.nextLine();
+                System.out.println("Bueno... tecniamente puedo hacerlo jsjsjs.... ahora la pregunta es por que lo haria? cuando puedo mantenerte en un bucle infinito (o hasta que me aburra la verdad) donde tengas que presionar Enter por siempre Wuajajajaj"); scanner.nextLine();
+                System.out.println("¿Quieres entrar en el bucle infinito? (s/n)"); respuesta = scanner.nextLine();
+                while (!respuesta.equals("s") && !respuesta.equals("n")) {
+                    System.out.println("Eeehhh.... es s para si y n para no....\nrespuesta: ");
+                    respuesta = scanner.nextLine();
+                }
+                if (respuesta.equals("s")) {
+                    System.out.println("¡Perfecto!.... entonces... vayamos a ese bucle infinito (seguramente te arrepentiras de esto.... o quizas yo lo haga primero)"); 
+                    for(int i=0; i<10; i++) {
+                        System.out.println("Estas atrapado en el bucle infinito... no puedes salir de aqui... cada vez te sientes mas desesperado por salir... pero no puedes... cada vez te arrepientes mas de haber elegido esta opcion..."); scanner.nextLine();
+                    }
+                    System.out.println("...bueno... creo que ya es suficiente por hoy... creo... puedo ser peor... pudo ser un while(true)... espero que hayas reflexionado sobre tus decisiones... y que hayas aprendido algo de esto... (inicia el juego -_-)"); scanner.nextLine();
+                    System.exit(0); ;
+                } else {
+                    System.out.println("Bueno... decision sabia la verdad... te dejare en paz.... a menos que luego prefieras no iniciar el juego.... Presiona Enter para salir... (ahora si de verdad)"); System.exit(0); ;
+                }
+            }
         }
-        System.out.print("\033[H\033[2J");
         System.out.println("¡Bienvenido al juego, Cloud!");
         Jugador Cloud = new Jugador();
         Zona zonaActual = zonaSector7;
         while(true){
             System.out.println("\n---- UBICACION:  " + zonaActual.getNombre() + " ----");
             System.out.println("Nivel: " + Cloud.getNivel() + " | HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo());
-            System.out.println("MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Fuerza: " + Cloud.getFuerza() + " | Magia: " + Cloud.getMagia());
+            System.out.println("MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Fuerza: " + Cloud.getFuerza() + " | Magia: " + Cloud.getMagia() + " | Chatarra: " + Cloud.getChatarra());
             System.out.println("¿Que deseas hacer?");
             System.out.println("1. Explorar los alrededores");
             System.out.println("2. Viajar a otra zona");
@@ -119,7 +185,7 @@ public class Main{
                         } catch (NumberFormatException e) {
                             System.out.println("Entrada no valida. Por favor, ingresa un numero.");
                         }
-        }
+                    }
                 }
             }else if(eleccion.equals("4") && zonaActual instanceof Sector7){
                 System.out.println("Te sientas cerca de una hoguera y duermes... Te despiertas sintiéndote renovado.");
@@ -129,6 +195,18 @@ public class Main{
                 System.out.println("¡Gracias por jugar!");
                 break;
             }
+            if (Cloud.getHpActual() <= 0) {
+                zonaActual = zonaSector7;
+                Cloud.setHpActual(1);
+                System.out.println("Has sido rescatado... regresas al Sector 7 con 1 HP...");
+                Cloud.setChatarra(0); 
+                for (Materia m : Cloud.getMochila()) {
+                    if (!m.isEquipado()) {
+                        System.out.println("Has perdido " + m.getNombre() + "...");
+                    }
+                }
+            }
+
         }
     }
 }
