@@ -43,7 +43,7 @@ public class NucleoPlaneta extends Zona{
         Scanner scanner = new Scanner(System.in);
         System.out.println("¡Sephiroth te mira fijamente... te ofrece la oportunidad de equiparte mejor y volver en otro momento a enfrentarlo.... Aceptas su propuesta? (s/n)");
         System.out.print("Respuesta: ");
-        String respuesta = scanner.nextLine();
+        String respuesta = scanner.nextLine(); respuesta = respuesta.toLowerCase();
         while (!respuesta.equalsIgnoreCase("s") && !respuesta.equalsIgnoreCase("n")) {
             System.out.println("Respuesta no válida. Por favor, ingresa 's' para sí o 'n' para no.");
             System.out.print("Respuesta: ");
@@ -161,17 +161,17 @@ public class NucleoPlaneta extends Zona{
             } else if (eleccion.equals("0")){
                 System.out.println("Sephiroth te mira.... y no le agrada que intentes huir.... te ve como alguien cobarde y debil.... aunque igual te dara la oportunidad de escapar....aunque no sera tan facil como antes...\nPresiona Enter para intentar huir...");
                 scanner.nextLine();
-                System.out.println("Intentas huir...\nPreiona Enter para continuar...");
+                System.out.println("Intentas huir...\nPresiona Enter para continuar...");
                 scanner.nextLine();
-                System.out.println("'...En verdad creiste que podrias huir?... tuve misericordia al ofrecerte volver... y no aceptaste... no eres mas que un ser insignificante...'");
-                System.out.println("Sephiroth te ataca por intentar huir...quedas tumbado en el suelo... tal parece que no puedes escapar de su alcance...Recibes 100 de daño por intentar huir...");
-                Cloud.getStats().recibirDMG(100); System.out.println("Precion Enter para continuar..."); scanner.nextLine();
+                System.out.println("'...En verdad creiste que podrias huir?... tuve misericordia al ofrecer que te marcharas... y no aceptaste... no eres más que un ser insignificante...'");
+                System.out.println("Sephiroth te ataca por intentar huir...quedas tumbado en el suelo... tal parece que no puedes escapar de su alcance...\nRecibes 100 de daño por intentar huir...");
+                Cloud.getStats().recibirDMG(100); System.out.println("Presiona Enter para continuar..."); scanner.nextLine();
                 if (Cloud.getHpActual() > 0) {
-                    System.out.println("Te has salvado de morir por intentar huir... pero Sephiroth te mira fijamente.... '¿Quieres intenarlo con mas ganas esta vez?'... Intentarlo (s) | Rechazar oferta (n)"); String escape = scanner.nextLine();
+                    System.out.println("Te has salvado de morir por intentar huir... pero Sephiroth te mira fijamente.... '¿Quieres intenarlo otra vez?.... Solo hazlo mejor'... Intentarlo (s) | Rechazar oferta (n)"); String escape = scanner.nextLine(); escape = escape.toLowerCase();
                     if (escape.equals("s")){
-                        System.out.println("Te levantas como puedes... tomas tu espada e intentas huir otra vez... corres lo mas rapido que puedes... pero Sephiroth es mas rapido que tu... Recibes 270 de daño por intentar huir otra vez...\n 'Entiende tu lugar, escoria'"); Cloud.getStats().recibirDMG(270); System.out.println("Precion Enter para continuar..."); scanner.nextLine();
+                        System.out.println("Te levantas como puedes... tomas tu espada e intentas huir otra vez... corres lo mas rapido que puedes... pero Sephiroth es mas rapido que tu... Recibes 270 de daño por intentar huir otra vez...\n 'Entiende tu lugar, escoria'"); Cloud.getStats().recibirDMG(270); System.out.println("Presiona Enter para continuar..."); scanner.nextLine();
                     } else {
-                        System.out.println("Tomas tu espada y te levantas a duras penas apoyandote en ella... te pones em guardia, levantas tu espada y miras fijamente a Sephiroth sin decir nada... Sephiroth te observa... se le dibuja una leve sonrisa en su rostro... 'Parece que aprendiste'...'"); System.out.println("Precion Enter para continuar el combate..."); scanner.nextLine();
+                        System.out.println("\nTomas tu espada y te levantas a duras penas apoyandote en ella... te pones en guardia, levantas tu espada y miras fijamente a Sephiroth sin decir nada... Sephiroth te observa... se le dibuja una leve sonrisa en el rostro... 'Parece que aprendiste...'"); System.out.println("Presiona Enter para continuar el combate..."); scanner.nextLine();
                     }
                 }
                 System.out.println("El contador de Supernova de Sephiroth se incrementa por tu intento de huida... cuidado con eso...");

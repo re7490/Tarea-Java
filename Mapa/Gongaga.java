@@ -16,7 +16,7 @@ public class Gongaga extends Zona{
     }
     
     public List<Enemigo> generarGrupoEnemigo(){
-        List<Enemigo> grupoEmboscada = new ArrayList();
+        List<Enemigo> grupoEmboscada = new ArrayList<>();
         Random rand = new Random();
 
         // cantidad de enemigos en la emboscada
@@ -85,7 +85,7 @@ public class Gongaga extends Zona{
                 ArrayList<Elemento> inmunidadesRobot = new ArrayList<>();
 
                 ArrayList<Elemento> resistenciasRobot = new ArrayList<>();
-                resistenciasRobot.add(Elemento.FISICO);
+                resistenciasRobot.add(Elemento.FISICO); //mas q nada visual... pq el enemigo tiene resistencia a ataques fisicos (1)
                 resistenciasRobot.add(Elemento.HIELO);
 
                 EnemigoSalvaje robotCentinela = new EnemigoSalvaje(
@@ -157,9 +157,13 @@ public class Gongaga extends Zona{
                         
                         if (accion.equals("1")) {
                             int dano = Cloud.getBusterSword().calcularDanoFisico();
-                            
+                            if (objetivo.getNombre().equals("Robot Centinela")) {
+                                dano = (int) (dano/2); // Resistencia a fisico
+                                System.out.println("¡" + objetivo.getNombre() + " resiste el daño físico! Causas solo " + dano + " de daño.");
+                            } else {
+                                 System.out.println("Atacas a " + objetivo.getNombre() + " causando " + dano + " de daño.");
+                            }
                             objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - dano);
-                            System.out.println("Atacas a " + objetivo.getNombre() + " causando " + dano + " de daño.");
                             turnoFinalizado = true;
                         } else if (accion.equals("2")) {
                             List<Materia> equipadas = Cloud.getBusterSword().getMateriasEquipadas();

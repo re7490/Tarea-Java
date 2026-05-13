@@ -4,6 +4,7 @@ import Componentes.*;
 import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Sephiroth extends Enemigo{
     private int contadorSuperNova;
@@ -29,16 +30,20 @@ public class Sephiroth extends Enemigo{
 
     @Override
     public void atacar(Jugador Cloud){
+        Random rand = new Random();
+        int probAtaque = rand.nextInt(100);
         this.contadorSuperNova++;
         if (this.contadorSuperNova >= 10) {
             lanzarSuperNova(Cloud);
             this.contadorSuperNova = 0;
             return;
-        }else {
+        }else if(probAtaque < 90) {
             int danoBase = (int) (this.stats.getFuerza() * 1.25);
             Cloud.getStats().recibirDMG(danoBase);
             System.out.println(this.nombre + " ataca a Cloud causando " + danoBase + " de daño.");
             Cloud.sumarLimite(danoBase / 2);
+        } else {
+            System.out.println(this.nombre + " intenta atacar a Cloud... pero milagrosamente Cloud logra esquivar el ataque!... Sephiroth queda impresionado ante tal hazaña.... 'Veamos si tienes suerte la proxima vez...'"); //no recibe nada
         }
     }
     @Override

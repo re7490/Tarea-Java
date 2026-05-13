@@ -17,20 +17,34 @@ public class Sector7 extends Zona{
 
     public void iniciarSimulacion(Jugador Cloud){
         Random rand = new Random();
-        int xpAleatoria = rand.nextInt(((20 - 15) + 1) + 15);
+        
+        List<EnemigoSimulador> enemigos = new ArrayList<>();
+        int probCantidad = rand.nextInt(100);
+        int cantidad = (probCantidad < 30) ? 2 : 1;
 
-        Estadisticas statsSoldado = new Estadisticas(50, 50, 0, 0, 15, 0);
-        EnemigoSimulador soldadoComun = new EnemigoSimulador("Soldado Comun", xpAleatoria, 0, statsSoldado);
-
-        System.out.println("\nTe has encontrado con un " + soldadoComun.getNombre() + "!");
-
-        System.out.println("El " + soldadoComun.getNombre() + " te saluda: 'Hola quien quiera que seas, te ves algo fuerte");
-        System.out.println("lo suficiente para poder practicar mis nuevas habilidades de combate. Peleemos, te dare la ventaja de atacar primero.'");
-
+        for(int i = 0; i < cantidad; i++) {
+            int xpAleatoria = rand.nextInt(((20 - 15) + 1) + 15);
+            Estadisticas statsSoldado = new Estadisticas(50, 50, 0, 0, 15, 0);
+            EnemigoSimulador soldadoComun = new EnemigoSimulador("Soldado Comun", xpAleatoria, 0, statsSoldado);
+            enemigos.add(soldadoComun);
+        }
+        if (cantidad == 1){
+            System.out.println("\nTe has encontrado con un Soldado Comun!");
+            System.out.println("El Soldado te saluda: 'Hola quien quiera que seas, te ves algo fuerte");
+            System.out.println("lo suficiente para poder practicar mis nuevas habilidades de combate. Peleemos, te dare la ventaja de atacar primero.'");
+        } else{
+            System.out.println("\nTe has encontrado con " + cantidad + " " + enemigos.get(0).getNombre() + "es!");
+            System.out.println("Los Soldados te miran y uno de ellos dice: 'Mira, mira, por fin tendremos con quien practicar lo que hemos aprendido en nuestro entrenamiento.'\n'Siii!! ya estaba aburrido de practicar siempre contigo.... era muy facil ganarte Jajajaja!'");
+            System.out.println("'¿Pero que dices?? Deja de mentirte a ti mismo.... en fin.... Como nosotros tenemos mas entrenamiento que tú... ehh... joven de pelo raro... te daremos la ventaja de atacar primero... aunque no creo que te sirva de mucho... Jajajaja!'");
+        }
         Scanner scanner = new Scanner(System.in);
-        while (Cloud.getHpActual() > 0 && soldadoComun.getStats().getHpActual() > 0) {
+        while (Cloud.getHpActual() > 0 && !enemigos.isEmpty()) {
 
-            System.out.println(soldadoComun.getNombre() + " HP: " + soldadoComun.getStats().getHpActual() + "/" + soldadoComun.getStats().getHpMaximo());
+            System.out.println("\n--- ENEMIGOS ---");
+            for (int i = 0; i < enemigos.size(); i++) {
+                EnemigoSimulador e = enemigos.get(i);
+                System.out.println((i + 1) + ". " + e.getNombre() + " HP: " + e.getStats().getHpActual() + "/" + e.getStats().getHpMaximo());
+            }
             System.out.println("Cloud HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo() + " | MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Limite: " + Cloud.getLimiteActual() + "/100");
             System.out.println("1. Ataque Físico | 2. Magia "+ (Cloud.getMpActual() >= 10 && !Cloud.getBusterSword().getMateriasEquipadas().isEmpty() ? " (Disponible)" : " (No disponible)") + 
             "| 3. Curarse " + (Cloud.getMpActual() >= 15 && Cloud.getMochila().stream().anyMatch(m -> m.getNombre().equalsIgnoreCase("Curacion") || m.getElemento() == Elemento.CURA) ? " (Disponible)" : " (No disponible)") +
@@ -44,60 +58,76 @@ public class Sector7 extends Zona{
                 System.out.println("Entrada no válida. Por favor, elige una opción válida.");
                 eleccion = scanner.nextLine();
             }
-            if (eleccion.equals("1")){
-                int dano = Cloud.getBusterSword().calcularDanoFisico();
-                soldadoComun.getStats().setHpActual(soldadoComun.getStats().getHpActual() - dano);
-                System.out.println("Cloud ataca con su Buster Sword haciendo: " + dano + " de daño.");
-                turnoFinalizado = true;
-            }else if (eleccion.equals("2")) {
-                List<Materia> equipadas = Cloud.getBusterSword().getMateriasEquipadas();
+            if (eleccion.equals("1") || eleccion.equals("2") || eleccion.equals("4")) {
+                System.out.print("¿A quién atacas? (Número): ");
+                int indice = Integer.parseInt(scanner.nextLine()) - 1;
+                if (indice >= 0 && indice < enemigos.size()) {
+                    EnemigoSimulador objetivo = enemigos.get(indice);
+                    if (eleccion.equals("1")){
+                        int dano = Cloud.getBusterSword().calcularDanoFisico();
+                        objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - dano);
+                        System.out.println("Cloud ataca con su Buster Sword haciendo: " + dano + " de daño.");
+                        turnoFinalizado = true;
+                    }else if (eleccion.equals("2")) {
+                        List<Materia> equipadas = Cloud.getBusterSword().getMateriasEquipadas();
 
-                if (equipadas.isEmpty()) {
-                    System.out.println("No tienes materias equipadas en tu arma. ¡No puedes usar magia!");
-                } else {
-                    System.out.println("\n--- SELECCIONAR ELEMENTO ---");
-                    //lista elementos unicos disponibles para no repetir
-                    List<Elemento> elementosDisponibles = new ArrayList<>();
-                    
-                    for (Materia m : equipadas) {
-                        if (!elementosDisponibles.contains(m.getElemento())) {
-                            elementosDisponibles.add(m.getElemento());
-                        }
-                    }
-
-                    for (int i = 0; i < elementosDisponibles.size(); i++) {
-                        System.out.println((i + 1) + ". " + elementosDisponibles.get(i));
-                    }
-                    System.out.println("0. Cancelar");
-                    System.out.print("Elección de elemento: ");
-                    
-                    try {
-                        int selElemento = Integer.parseInt(scanner.nextLine());
-                        
-                        if (selElemento > 0 && selElemento <= elementosDisponibles.size()) {
-                            Elemento elegido = elementosDisponibles.get(selElemento - 1);
-                            
-                            int danoMagico = Cloud.getBusterSword().calcularDanoMagico(elegido);
-
-                            if (elegido == Elemento.CURA) {
-                                int cura = danoMagico;
-                                Cloud.getStats().setHpActual(Math.min(Cloud.getHpActual() + cura, Cloud.getHpMaximo()));
-                                System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
-                                turnoFinalizado = true;
-                            } else if (danoMagico > 0) {
-                                soldadoComun.getStats().setHpActual(soldadoComun.getStats().getHpActual() - danoMagico);
-                                System.out.println("¡Lanzas un hechizo de " + elegido + "!");
-                                System.out.println("Causas " + danoMagico + " de daño mágico.");
-                                Cloud.sumarLimite(danoMagico / 2);
-                                turnoFinalizado = true;
-                            } else {
-                                System.out.println("No tienes suficiente MP para este hechizo.");
-                            }
+                        if (equipadas.isEmpty()) {
+                            System.out.println("No tienes materias equipadas en tu arma. ¡No puedes usar magia!");
                         } else {
-                            System.out.println("Acción cancelada.");
+                            System.out.println("\n--- SELECCIONAR ELEMENTO ---");
+                            //lista elementos unicos disponibles para no repetir
+                            List<Elemento> elementosDisponibles = new ArrayList<>();
+                            
+                            for (Materia m : equipadas) {
+                                if (!elementosDisponibles.contains(m.getElemento())) {
+                                    elementosDisponibles.add(m.getElemento());
+                                }
+                            }
+
+                            for (int i = 0; i < elementosDisponibles.size(); i++) {
+                                System.out.println((i + 1) + ". " + elementosDisponibles.get(i));
+                            }
+                            System.out.println("0. Cancelar");
+                            System.out.print("Elección de elemento: ");
+                            
+                            try {
+                                int selElemento = Integer.parseInt(scanner.nextLine());
+                                
+                                if (selElemento > 0 && selElemento <= elementosDisponibles.size()) {
+                                    Elemento elegido = elementosDisponibles.get(selElemento - 1);
+                                    
+                                    int danoMagico = Cloud.getBusterSword().calcularDanoMagico(elegido);
+
+                                    if (elegido == Elemento.CURA) {
+                                        int cura = danoMagico;
+                                        Cloud.getStats().setHpActual(Math.min(Cloud.getHpActual() + cura, Cloud.getHpMaximo()));
+                                        System.out.println("Usas Materia de Curación. Recuperas " + cura + " HP.");
+                                        turnoFinalizado = true;
+                                    } else if (danoMagico > 0) {
+                                        objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - danoMagico);
+                                        System.out.println("¡Lanzas un hechizo de " + elegido + "!");
+                                        System.out.println("Causas " + danoMagico + " de daño mágico.");
+                                        Cloud.sumarLimite(danoMagico / 2);
+                                        turnoFinalizado = true;
+                                    } else {
+                                        System.out.println("No tienes suficiente MP para este hechizo.");
+                                    }
+                                } else {
+                                    System.out.println("Acción cancelada.");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada inválida.");
+                            }
                         }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Entrada inválida.");
+                    } else if (eleccion.equals("4")) {
+                        if (Cloud.getLimiteActual() >= 100) {
+                            int danoLimite = Cloud.getBusterSword().calcularDanoLimite();
+                            objetivo.getStats().setHpActual(objetivo.getStats().getHpActual() - danoLimite);
+                            System.out.println("Usas Ataque Limite y el daño es devastador: " + danoLimite);
+                            turnoFinalizado = true;
+                        } else {
+                            System.out.println("Barra de Límite insuficiente.");
+                        }
                     }
                 }
             }else if (eleccion.equals("3")) {
@@ -121,41 +151,68 @@ public class Sector7 extends Zona{
                 } else {
                     System.out.println("MP insuficiente para curar.");
                 }
-            } else if (eleccion.equals("4")) {
-                if (Cloud.getLimiteActual() >= 100) {
-                    int danoLimite = Cloud.getBusterSword().calcularDanoLimite();
-                    soldadoComun.getStats().setHpActual(soldadoComun.getStats().getHpActual() - danoLimite);
-                    System.out.println("Usas Ataque Limite y el daño es devastador: " + danoLimite);
-                    turnoFinalizado = true;
-                } else {
-                    System.out.println("Barra de Límite insuficiente.");
-                }
-            } else if (eleccion.equals("0")){
+            }else if (eleccion.equals("0")){
                 if (rand.nextInt(100) < 50) { System.out.println("¡Escapaste!"); return; }
                 else { System.out.println("¡No pudiste escapar! El combate continúa."); turnoFinalizado = true; }
             }
 
-            if (turnoFinalizado) {
-                if (soldadoComun.getStats().getHpActual() > 0){
-                    Random r = new Random();
-                    int probAtaque = r.nextInt(100);
-                    if (probAtaque <= 15){
-                        System.out.println(soldadoComun.getNombre() + " ha fallado su ataque!\n-----------------------------");
-                    } else if (!soldadoComun.checkDanoSeguro(Cloud)){
-                        System.out.println("El " + soldadoComun.getNombre() + " se da cuenta de que puede derrotarte con un solo ataque, así que decide no atacarte y se retira del combate.\n----------------------------");
-                        Cloud.setHpActual(1);
-                        break;
-                    }else {
-                        System.out.println("\n ---TURNO ENEMIGO ---");
-                        soldadoComun.atacar(Cloud);
+            if (turnoFinalizado && !enemigos.isEmpty()) {
+                System.out.println("\n--- Turno de los enemigos ---");
+                Random r = new Random();
+                boolean ataqueConjunto = false;
+
+                if (enemigos.size() == 2) {
+                    System.out.println("Los soldados se miran y deciden coordinar su ataque...");
+                    int probCoordinacion = r.nextInt(100);
+                    ataqueConjunto = (probCoordinacion < 50) ? true : false;
+                }
+
+                if (ataqueConjunto) {
+                    System.out.println("¡Los soldados increíblemente se coordinan para un ataque combinado!");
+                    for (EnemigoSimulador e : enemigos) {
+                        ataqueIndividualSoldado(e, Cloud);
                     }
                 } else {
-                    System.out.println(soldadoComun.getNombre() + " tambalea y cae al suelo\n----------------------------");
-                    soldadoComun.giveXpRecompensa(Cloud);
+                    if (enemigos.size() == 2) {
+                        System.out.println("Los soldados no logran coordinarse... ¡lo deciden con un cachipún!");
+                    }
+                    int indiceAtacante = r.nextInt(enemigos.size());
+                    EnemigoSimulador atacanteEnemigo = enemigos.get(indiceAtacante);
+                    System.out.println(atacanteEnemigo.getNombre() + " se prepara para atacar.");
+                    ataqueIndividualSoldado(atacanteEnemigo, Cloud);
+                }
+
+                for (int i = enemigos.size() - 1; i >= 0; i--) {
+                    if (enemigos.get(i).getStats().getHpActual() <= 0) {
+                        EnemigoSimulador caido = enemigos.get(i);
+                        System.out.println(caido.getNombre() + " tambalea y cae al suelo.");
+                        
+                        if (enemigos.size() == 2) {
+                            System.out.println("El Soldado sobreviviente grita: '¡Nooo, " + caido.getNombre() + "!'... pobrecito... ha perdido a su amigo...");
+                        }
+                        
+                        caido.giveXpRecompensa(Cloud);
+                        enemigos.remove(i);
+                    }
                 }
             }
         }
-    };
+    }
+
+    public void ataqueIndividualSoldado(EnemigoSimulador soldado, Jugador Cloud){
+        Random r = new Random();
+        int probAtaque = r.nextInt(100);
+        if (probAtaque <= 15){
+            System.out.println(soldado.getNombre() + " ha fallado su ataque!\n-----------------------------");
+        } else if (!soldado.checkDanoSeguro(Cloud)){
+            System.out.println("El " + soldado.getNombre() + " se da cuenta de que puede derrotarte con un solo ataque, así que decide no atacarte y se retira del combate.\n----------------------------");
+            Cloud.setHpActual(1);
+            return;
+        }else {
+            System.out.println("\n ---TURNO ENEMIGO ---");
+            soldado.atacar(Cloud);
+        }
+    }
 
 
     public void abrirTienda(Jugador Cloud) {
@@ -232,8 +289,8 @@ public class Sector7 extends Zona{
 
         while (explorar) {
             System.out.println("Explorando el Sector 7...");
-            System.out.println("Encuentras a un soldado por la zona.... por otro lado hay una tienda local que se ve interesante... \n¿Que deseas hacer?");
-            System.out.println("1. Enfrentar al soldado comun");
+            System.out.println("Por un lado divisas unas siluetas... por otro lado hay una tienda local que se ve interesante... \n¿Que deseas hacer?");
+            System.out.println("1. Ir a ver que son las siluetas");
             System.out.println("2. Visitar la tienda local");
             System.out.println("0. Dejar de explorar");
             System.out.print("Eleccion: ");
