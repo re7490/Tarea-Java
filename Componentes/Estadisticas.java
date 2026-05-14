@@ -11,6 +11,16 @@ public class Estadisticas {
     private int fuerza;
     private int magia;
     
+    /**
+     * Crea una nueva instancia de Estadisticas con todos los atributos base definidos.
+     * 
+     * @param hpMaximo Vida maxima
+     * @param hpActual Vida actual
+     * @param mpMaximo Mp maximo
+     * @param mpActual Mp actual
+     * @param fuerza   Fuerza para ataques
+     * @param magia    Magia para ataques magicos
+     */
     public Estadisticas(int hpMaximo, int hpActual, int mpMaximo, int mpActual, int fuerza, int magia){ //vida max, vida actual, MP max, MP actual, fuerza, magia
         this.hpMaximo = hpMaximo;
         this.mpMaximo = mpMaximo;
@@ -39,6 +49,12 @@ public class Estadisticas {
     
     
     //Funcion
+    /**
+     * Reduce la salud actual de Cloud segun el daño recibido.
+     * Asegura que los puntos de vida no sean menores a cero.
+     * 
+     * @param valor Cantidad de puntos de daño a restar de la salud.
+     */
     public void recibirDMG(int valor){
         this.hpActual -= valor;
         if (this.hpActual <= 0) this.hpActual = 0;

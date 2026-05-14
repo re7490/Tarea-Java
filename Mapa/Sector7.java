@@ -10,11 +10,24 @@ import java.util.Scanner;
 public class Sector7 extends Zona{
     private List<Mejora> tiendaLocal;
 
+    /**
+     * Constructor de la clase Sector7.
+     * 
+     * @param nombre Nombre Zzona.
+     * @param nivelRequerido Nivel minimo para que Cloud pueda entrar.
+     * @param tiendaLocal Lista de objetos de tipo Mejora disponibles para la compra.
+     */
     public Sector7(String nombre, int nivelRequerido, List<Mejora> tiendaLocal){
         super(nombre, nivelRequerido);
         this.tiendaLocal = tiendaLocal;
     }
 
+    /**
+     * Ejecuta una simulacion de combate entre Cloud y uno o dos soldados.
+     * Gestiona el ciclo completo de batalla: generacion de enemigos, seleccion de acciones (Ataque, Magia, Curacion, Limite, Huida), calculo de daño, estados de victoria/derrota y comportamientos coordinados de la IA enemiga.
+     * 
+     * @param Cloud El jugador que participa en la simulacion.
+     */
     public void iniciarSimulacion(Jugador Cloud){
         Random rand = new Random();
         
@@ -204,6 +217,15 @@ public class Sector7 extends Zona{
         }
     }
 
+    /**
+     * Procesa el turno de ataque de un soldado individual dentro de la simulacion.
+     * Incluye una probabilidad de fallo del 15%. Si el soldado detecta que su proximo golpe sera letal, opta por retirarse dejando al jugador con 1 de vida
+     * 
+     * @param soldado El enemigo que realiza el ataque.
+     * @param Cloud El jugador que recibe el ataque.
+     * @return true si el combate debe finalizar (por retirada del enemigo); 
+     *         false si el combate sigue.
+     */
     public boolean ataqueIndividualSoldado(EnemigoSimulador soldado, Jugador Cloud){
         Random r = new Random();
         int probAtaque = r.nextInt(100);
@@ -221,7 +243,13 @@ public class Sector7 extends Zona{
         }
     }
 
-
+    /**
+     * Inicia el sub-bucle de la tienda en el Sector 7.
+     * Permite al jugador visualizar y comprar mejoras permanentes para sus stats usando chatarra. Incluye validaciones de fondos, manejo de errores de entrada 
+     * y efectos secundarios como la curacion inmediata al aumentar el HP/MP maxino.
+     * 
+     * @param Cloud El jugador que realiza las compras y cuyas stats seran modificadas.
+     */
     public void abrirTienda(Jugador Cloud) {
         Scanner scanner = new Scanner(System.in);
         boolean enTienda = true;
@@ -292,6 +320,14 @@ public class Sector7 extends Zona{
             }
         }
     }
+
+    /**
+     * Ejecuta el ciclo de interacción del Sector 7.
+     * Muestra el estado actual del jugador (HUD) y presenta un menu de opciones para explorar encuentros de combate, acceder a la tienda o salir de la zona.
+     * Implementa una validacion de entrada para asegurar la correcta navegacion del usuario.
+     * 
+     * @param j El jugador que interactua con el entorno del Sector 7.
+     */
     @Override
     public void accionZona(Jugador j) { 
         boolean explorar = true;

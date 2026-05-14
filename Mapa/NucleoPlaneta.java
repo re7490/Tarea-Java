@@ -10,14 +10,31 @@ import java.util.Random;
 public class NucleoPlaneta extends Zona{
     private int materiasMinimasRequeridas;
 
+    /**
+     * Constructor para Nucleo del Planeta.
+     * Ademas de los requisitos de nivel, esta zona impone una restriccion de equipo, exigiendo que el jugador posea un num min de Materias para poder enfrentar el desafio definitivo.
+     * 
+     * @param nombre El nombre xona.
+     * @param nivelRequerido Nivel min para  entrar a la zona
+     * @param materiasMinimasRequeridas Cantidad de Materias que el jugador debe tener en su arma para entrar.
+     */
     public NucleoPlaneta(String nombre, int nivelRequerido, int materiasMinimasRequeridas){
         super(nombre, nivelRequerido);
 
         this.materiasMinimasRequeridas = materiasMinimasRequeridas;
     }
-    //validacion de materias equipadas, ademas de el nivel requerido
+
+    /**
+     * Valida si el jugador cumple con los requisitos dobles para entrar a la zona.
+     * Primero verifica el nivel mediante la logica de la clase base. Luego, comprueba 
+     * si el num de materias equipadas en el arma es suficiente.
+     * 
+     * @param Cloud El jugador que intenta acceder a la zona.
+     * @return true si cumple con el nivel y el equipo min; 
+     *         false en caso contrario, mostrando un mensaje de advertencia.
+     */
     @Override
-    public boolean validarAcceso(Jugador Cloud) {
+    public boolean validarAcceso(Jugador Cloud) { //validacion de materias equipadas, ademas de el nivel requerido
         boolean nivelSuficiente = super.validarAcceso(Cloud);
         
         int materiasEquipadas = Cloud.getBusterSword().getMateriasEquipadas().size(); //materias equipas en el arma de Cloud 
@@ -30,6 +47,12 @@ public class NucleoPlaneta extends Zona{
         }
     }
 
+    /**
+     * Gestiona el enfrentamiento final contra Sephiroth.
+     * Implementa opcion de combatir o volver despues, un bucle de combate por turnos con estados de victoria/derrota, y un sistema de castigo severo por intentar huir del destino.
+     * 
+     * @param Cloud El jugador que se enfrenta a Sephirtoh.
+     */
     public void iniciarCombate(Jugador Cloud){
         //Sephiroth
         Estadisticas statsSephiroth = new Estadisticas(500, 500, 0, 0, 40, 0);//vida actual, vida maxima, MP actual, MP maximo, fuerza, magia
@@ -195,7 +218,15 @@ public class NucleoPlaneta extends Zona{
             }
             
         }
-    }    
+    }
+
+    /**
+     * Ejecuta el evento final del juego.
+     * Al entrar, se activa una secuencia narrativa que desemboca directamente 
+     * en el enfrentamiento definitivo con Sephiroth.
+     * 
+     * @param Cloud El jugador que entra a la zona.
+     */
     @Override
     public void accionZona(Jugador Cloud){ 
         System.out.println("¡Has entrado al Núcleo del Planeta! Avanzas por la zona... y a lo lejos ves a Sephiroth.... él te estaba esperando...");    

@@ -10,11 +10,24 @@ import java.util.Scanner;
 public class Gongaga extends Zona{
     private List<Materia> poolMaterias;
 
+    /**
+     * Constructor para la zona de Gongaga.
+     * 
+     * @param nombre Nombre de la zona.
+     * @param nivelRequerido Nivel minimo para acceder
+     * @param poolMaterias Una lista de materias que pueden ser encontradas al explorar.
+     */
     public Gongaga(String nombre, int nivelRequerido, List<Materia> poolMaterias){
         super(nombre, nivelRequerido);
         this.poolMaterias = poolMaterias;
     }
-    
+
+    /**
+     * Genera un grupo de enemigos aleatorios para un encuentro en la zona.
+     * Calcula la cantidad de oponentes (1 a 3) y el tipo de criatura mediante probabilidades, asignando stats, debilidades y recompensas aleatorias.
+     * 
+     * @return List de objetos Enemigo listos para iniciar un combate.
+     */
     public List<Enemigo> generarGrupoEnemigo(){
         List<Enemigo> grupoEmboscada = new ArrayList<>();
         Random rand = new Random();
@@ -102,6 +115,13 @@ public class Gongaga extends Zona{
         }
         return grupoEmboscada;
     }
+
+    /**
+     * Ejecuta la dinamica de exploracion en Gongaga.
+     * Utiliza un sistema de probabilidades para determinar si el jugador encuentra una Materia aleatoria (30%) o cae en una emboscada de enemigos salvajes (70%).
+     * 
+     * @param Cloud El jugador que explora la zona.
+     */
     @Override
     public void accionZona(Jugador Cloud){
         boolean explorar = true;
@@ -125,6 +145,16 @@ public class Gongaga extends Zona{
             }
         }
     }
+
+    /**
+     * Gestiona un encuentro de combate completo contra un grupo de enemigos salvajes.
+     * Implementa la logica de seleccion de objetivos, calculo de daño físico y mágico 
+     * (con multiplicadores elementales), uso de ataque limite, curación y gestion de turnos 
+     * de enemigos y ataques coordinados
+     * 
+     * @param Cloud El jugador que participa en el combate.
+     * @param enemigos Lista de enemigos que forman parte del encuentro.
+     */
     public void iniciarCombate(Jugador Cloud, List<Enemigo> enemigos) {
         Scanner scanner = new Scanner(System.in);
         Random rand = new Random();

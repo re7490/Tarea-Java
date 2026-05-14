@@ -15,6 +15,10 @@ public class Jugador{
     private List<Materia> mochila;
     private Arma espada;
 
+    /**
+     * Constructor inicializa al personaje en el nivel 1, sin experiencia, chatarra ni límite.
+     * Define las stats base (Vida, MP, Fuerza, Magia), crea una mochila vacía y equipa un arma inicial.
+     */
     public Jugador(){
         this.nivel = 1;
         this.expActual = 0;
@@ -45,8 +49,20 @@ public class Jugador{
     public void setMpActual(int nuevoMp) { this.stats.setMpActual(nuevoMp); }
 
     //Funciones
-    public void añadirChatarra(int chatarra){ this.chatarra += chatarra; }
+    /**
+     * Incrementa la cantidad de chatarra acumulada por el jugador..
+     * 
+     * @param chatarra Cantidad de unidades de chatarra que se sumaran al inventario actual.
+     */
+    public void añadirChatarra(int chatarra){ this.chatarra += chatarra; } //de por si es un set... pero ya no le cambie el nombre Dx
 
+    /**
+     * Procesa la Xp recibida por el jugador y gestiona la subida de nivel.
+     * Si la Xp actual supera el umbral requerido (nivel * 10), el jugador sube de nivel y aumenta sus ststas base y regenera una parte de su HP y MP.
+     * El excedente de experiencia se mantiene para el siguiente nivel.
+     * 
+     * @param xp Cantidad de puntos de experiencia a sumar al progreso actual.
+     */
     public void recibirXP(int xp){
         this.expActual += xp;
         int xpNecesaria = this.nivel * 10;
@@ -68,6 +84,11 @@ public class Jugador{
             xpNecesaria = 10 * this.nivel;
         }
     }
+
+    /**
+     * Despliega en consola el contenido actual de la mochila del jugador.
+     * Si el inventario esta vacío, informa al usuario; de lo contrario, lista cada Materia con su indice, nombre, elemento asociado y su estado de equipamiento actual.
+     */
     public void mostrarMochila(){
         if (mochila.isEmpty()) {
             System.out.println("Tu mochila está vacía.");
@@ -81,7 +102,13 @@ public class Jugador{
         }
     }
     
-    public void sumarLimite(int cantidad) {
+    /**
+     * Incrementa la barra de limite del jugador tras recibir daño o realizar acciones.
+     * El valor no puede pasar de 100. Una vez alcanzado este umbral, el jugador queda habilitado para ejecutar el ataque limite.
+     * 
+     * @param cantidad Puntos de limite que se añadiran a la barra actual.
+     */
+    public void sumarLimite(int cantidad) { //creo q tambien contaria como set... pero bueno...
         if (this.limiteActual <= 100) {
             this.limiteActual += cantidad;
             if (this.limiteActual > 100) {
@@ -97,6 +124,10 @@ public class Jugador{
         public String nombre = "Buster Sword";
         private List<Materia> materiasEquipadas;
 
+        /**
+         * Constructor de la clase Arma.
+         * Inicializa la lista de materias equipadas como un ArrayList vacio.
+         */
         public Arma(){
             this.materiasEquipadas = new ArrayList<>();
         }
@@ -105,6 +136,13 @@ public class Jugador{
         public List<Materia> getMateriasEquipadas() { return materiasEquipadas; }
 
         //Funciones 
+        /**
+         * Calcula y ejecuta el daño del ataque magico basado en un elemento especifico.
+         * La potencia y el coste de MP escalan segun la cantidad de materias del mismo elemento equipadas en el arma. Si el jugador no tiene suficiente MP, el ataque falla.
+         * 
+         * @param elemento El tipo elemental del hechizo
+         * @return El daño magico total calculado; devuelve 0 si no hay suficiente MP.
+         */
         public int calcularDanoMagico(Elemento elemento){
             int n = 0;
             for (Materia m: materiasEquipadas){
@@ -120,17 +158,34 @@ public class Jugador{
             stats.setMpActual(stats.getMpActual() - costeMP); //aplicamos coste  dataque
             return danoMagico;
         }
+
+        /**
+         * Calcula el daño de un ataque fisico basado en la fuerza del jugador.
+         * Al realizar este ataque, el jugador genera puntos de limite equivalentes al 20% del daño infligido.
+         * 
+         * @return El daño fisico total calculado tras aplicar el multiplicador de fuerza.
+         */
         public int calcularDanoFisico(){
             int dano = (int) (stats.getFuerza() * 1.25);
             sumarLimite((int) (dano/5));
             return dano;
         }
         
+        /**
+         * Ejecuta el ataque limite devastador,reinicia la barra de limite a 0 y calcula un daño masivo basado en fuerza*5.
+         * 
+         * @return El daño total del ataque limite (Fuerza * 5).
+         */
         public int calcularDanoLimite(){ //ataque limite (devastador)
             limiteActual = 0;
             return stats.getFuerza() * 5;
         }
 
+        /**
+         * Intenta equipar una materia en la espada, esta tiene un límite de 5 ranuras. Si hay espacio disponible, añade la materia a la lista, marca la materia como equipada y confirma por consola.
+         * 
+         * @param materia El objeto Materia que se desea insertar en el arma.
+         */
         public void equiparMateria(Materia materia){
             if (materiasEquipadas.size() < 5) {
                 materiasEquipadas.add(materia);
@@ -141,6 +196,12 @@ public class Jugador{
             }
         }
 
+        /**
+         * Retira una materia especifica del arma.
+         * Si la materia se encuentra en el arma, la elimina de la lista, actualiza su estado a no equipada y confirma por consola
+         * 
+         * @param m El objeto Materia que se desea retirar del equipo.
+         */
         public void desequiparMateria(Materia m) {
             if (materiasEquipadas.remove(m)) {
                 m.setEquipado(false);

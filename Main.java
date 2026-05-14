@@ -8,6 +8,11 @@ import Componentes.*;
 
 
 public class Main{
+
+    /**
+     * Punto de entrada al juego
+     * Orquesta la inicializacion de zonas, el inventario de la tienda y el pool de materias. Gestiona el Game Loop principal, permitiendo al jugador viajar entre ubicaciones, administrar su equipamiento y enfrentar los eventos de cada zona bajo un sistema de persistencia y penalizaciones por derrota.
+     */
     public static void main(String[] args){
 
         //Iniciamos tienda y zonas antes de logica jugable
