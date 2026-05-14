@@ -23,7 +23,7 @@ public class Sector7 extends Zona{
         int cantidad = (probCantidad < 30) ? 2 : 1;
 
         for(int i = 0; i < cantidad; i++) {
-            int xpAleatoria = rand.nextInt(((20 - 15) + 1) + 15);
+            int xpAleatoria = rand.nextInt(20 - 15 + 1) + 15;
             Estadisticas statsSoldado = new Estadisticas(50, 50, 0, 0, 15, 0);
             EnemigoSimulador soldadoComun = new EnemigoSimulador("Soldado Comun", xpAleatoria, 0, statsSoldado);
             enemigos.add(soldadoComun);
@@ -156,32 +156,8 @@ public class Sector7 extends Zona{
                 else { System.out.println("¡No pudiste escapar! El combate continúa."); turnoFinalizado = true; }
             }
 
-            if (turnoFinalizado && !enemigos.isEmpty()) {
-                System.out.println("\n--- Turno de los enemigos ---");
-                Random r = new Random();
-                boolean ataqueConjunto = false;
-
-                if (enemigos.size() == 2) {
-                    System.out.println("Los soldados se miran y deciden coordinar su ataque...");
-                    int probCoordinacion = r.nextInt(100);
-                    ataqueConjunto = (probCoordinacion < 50) ? true : false;
-                }
-
-                if (ataqueConjunto) {
-                    System.out.println("¡Los soldados increíblemente se coordinan para un ataque combinado!");
-                    for (EnemigoSimulador e : enemigos) {
-                        ataqueIndividualSoldado(e, Cloud);
-                    }
-                } else {
-                    if (enemigos.size() == 2) {
-                        System.out.println("Los soldados no logran coordinarse... ¡lo deciden con un cachipún!");
-                    }
-                    int indiceAtacante = r.nextInt(enemigos.size());
-                    EnemigoSimulador atacanteEnemigo = enemigos.get(indiceAtacante);
-                    System.out.println(atacanteEnemigo.getNombre() + " se prepara para atacar.");
-                    ataqueIndividualSoldado(atacanteEnemigo, Cloud);
-                }
-
+            if (turnoFinalizado && !enemigos.isEmpty()) {  
+                //limpieza muertos              
                 for (int i = enemigos.size() - 1; i >= 0; i--) {
                     if (enemigos.get(i).getStats().getHpActual() <= 0) {
                         EnemigoSimulador caido = enemigos.get(i);
@@ -195,22 +171,53 @@ public class Sector7 extends Zona{
                         enemigos.remove(i);
                     }
                 }
+                if (!enemigos.isEmpty()) {
+                    System.out.println("\n--- Turno de los enemigos ---");
+                    Random r = new Random();
+                    boolean ataqueConjunto = false;
+
+                    if (enemigos.size() == 2) {
+                        System.out.println("Los soldados se miran y deciden coordinar su ataque...");
+                        int probCoordinacion = r.nextInt(100);
+                        ataqueConjunto = (probCoordinacion < 50) ? true : false;
+                    }
+
+                    if (ataqueConjunto) {
+                        System.out.println("¡Los soldados increíblemente se coordinan para un ataque combinado!");
+                        for (EnemigoSimulador e : enemigos) {
+                            ataqueIndividualSoldado(e, Cloud);
+                        }
+                    } else {
+                        if (enemigos.size() == 2) {
+                            System.out.println("Los soldados no logran coordinarse... ¡lo deciden con un cachipún!");
+                        }
+                        int indiceAtacante = r.nextInt(enemigos.size());
+                        EnemigoSimulador atacanteEnemigo = enemigos.get(indiceAtacante);
+                        System.out.println(atacanteEnemigo.getNombre() + " se prepara para atacar.");
+                         if (ataqueIndividualSoldado(atacanteEnemigo, Cloud)) {
+                            System.out.println("El combate ha terminado.");
+                            return;
+                        }
+                    }
+                }
             }
         }
     }
 
-    public void ataqueIndividualSoldado(EnemigoSimulador soldado, Jugador Cloud){
+    public boolean ataqueIndividualSoldado(EnemigoSimulador soldado, Jugador Cloud){
         Random r = new Random();
         int probAtaque = r.nextInt(100);
         if (probAtaque <= 15){
             System.out.println(soldado.getNombre() + " ha fallado su ataque!\n-----------------------------");
+            return false;
         } else if (!soldado.checkDanoSeguro(Cloud)){
             System.out.println("El " + soldado.getNombre() + " se da cuenta de que puede derrotarte con un solo ataque, así que decide no atacarte y se retira del combate.\n----------------------------");
             Cloud.setHpActual(1);
-            return;
+            return true; //identificar q hay q salir del combate
         }else {
             System.out.println("\n ---TURNO ENEMIGO ---");
             soldado.atacar(Cloud);
+            return false;
         }
     }
 
@@ -219,12 +226,15 @@ public class Sector7 extends Zona{
         Scanner scanner = new Scanner(System.in);
         boolean enTienda = true;
 
-        System.out.println("Entras a la tienda, te recibe un vendedor alto y grande y con un puro encendido en la boca.\n'Bienvenido a mi tienda joven. Aquí encontrarás mejoras para ayudarte en tu camino... espero tengas suficiente chatarra Jejeje.'");
+        System.out.println("\nEntras a la tienda, te recibe un vendedor alto y grande y con un puro encendido en la boca.\n'Bienvenido a mi tienda joven. Aquí encontrarás mejoras para ayudarte en tu camino... espero tengas suficiente chatarra Jejeje.'");
 
         while (enTienda) {
             System.out.println("\n--- TIENDA DE MEJORAS - SECTOR 7 ---");
-            System.out.println("Chatarra actual: " + Cloud.getChatarra() + " G");
-            System.out.println("Mejoras disponibles:");
+
+            System.out.println("\nNivel: " + Cloud.getNivel() + " | HP: " + Cloud.getHpActual() + "/" + Cloud.getHpMaximo());
+            System.out.println("MP: " + Cloud.getMpActual() + "/" + Cloud.getMpMaximo() + " | Fuerza: " + Cloud.getFuerza() + " | Magia: " + Cloud.getMagia() + " | Chatarra: " + Cloud.getChatarra());
+            
+            System.out.println("\nMejoras disponibles:");
 
             //lista mejoras con formato: nombre, bono, stat afectado, costo
             for (int i = 0; i < tiendaLocal.size(); i++) {
@@ -288,7 +298,9 @@ public class Sector7 extends Zona{
         Scanner scanner = new Scanner(System.in);
 
         while (explorar) {
-            System.out.println("Explorando el Sector 7...");
+            System.out.println("\nNivel: " + j.getNivel() + " | HP: " + j.getHpActual() + "/" + j.getHpMaximo());
+            System.out.println("MP: " + j.getMpActual() + "/" + j.getMpMaximo() + " | Fuerza: " + j.getFuerza() + " | Magia: " + j.getMagia() + " | Chatarra: " + j.getChatarra());
+            System.out.println("\nExplorando el Sector 7...");
             System.out.println("Por un lado divisas unas siluetas... por otro lado hay una tienda local que se ve interesante... \n¿Que deseas hacer?");
             System.out.println("1. Ir a ver que son las siluetas");
             System.out.println("2. Visitar la tienda local");

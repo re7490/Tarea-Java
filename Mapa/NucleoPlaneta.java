@@ -176,7 +176,7 @@ public class NucleoPlaneta extends Zona{
                 }
                 System.out.println("El contador de Supernova de Sephiroth se incrementa por tu intento de huida... cuidado con eso...");
                 System.out.println("Y por si no fuera suficiente... se cura sus herida");
-                sephiroth.getStats().setHpActual(Math.min(sephiroth.getStats().getHpActual() + 170, sephiroth.getStats().getHpMaximo()));
+                sephiroth.getStats().setHpActual(sephiroth.getStats().getHpMaximo());
                 sephiroth.setContadorSuperNova(3); //aumentamos en 3 el contador
                 turnoFinalizado = true; 
             }

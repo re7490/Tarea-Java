@@ -130,9 +130,9 @@ public class Main{
                 zonaActual.accionZona(Cloud);
             } else if (eleccion.equals("2")) {
                 System.out.println("¿A qué zona deseas viajar?");
-                System.out.println("1. Sector 7");
-                System.out.println("2. Gongaga");
-                System.out.println("3. Nucleo Planeta");
+                System.out.println("1. Sector 7" + (zonaActual instanceof Sector7 ? " (Zona actual)" : " (Zona disponible)"));
+                System.out.println("2. Gongaga" + (zonaActual instanceof Gongaga ? " (Zona actual)" : (Cloud.getNivel() < zonaGongaga.getNivelRequerido() ? " (Requiere nivel " + zonaGongaga.getNivelRequerido() + ")" : " (Zona disponible)")));
+                System.out.println("3. Nucleo Planeta" + (zonaActual instanceof NucleoPlaneta ? " (Zona actual)" : (Cloud.getNivel() < zonaNucleo.getNivelRequerido() ? " (Requiere nivel " + zonaNucleo.getNivelRequerido() + ")" : (Cloud.getBusterSword().getMateriasEquipadas().size() < 2 ? " (Requiere equipar al menos 2 Materia en Buster Sword)" : " (Zona disponible)"))));
                 System.out.print("Eleccion: ");
                 String zonaEleccion = scanner.nextLine();
                 Zona zonaOrigen = zonaActual;
@@ -152,38 +152,49 @@ public class Main{
                     System.out.println("Zona no válida. Permanece en la zona actual.");
                 }
             } else if (eleccion.equals("3")) {
-                Cloud.mostrarMochila();
-                if (!Cloud.getMochila().isEmpty()) {
-                    System.out.println("\n¿Que deseas hacer?");
-                    System.out.println("1. Equipar una materia | 2. Desequipar una materia | 0. Volver");
-                    System.out.print("Eleccion: ");
-                    String subEleccion = scanner.nextLine();
+                boolean mochila = true;
+                while (mochila) {
+                    Cloud.mostrarMochila();
+                    if (Cloud.getMochila().isEmpty()) {
+                        mochila = false;
+                    }
+                    if (!Cloud.getMochila().isEmpty()) {
+                        System.out.println("\n¿Que deseas hacer?");
+                        System.out.println("1. Equipar una materia | 2. Desequipar una materia | 0. Volver");
+                        System.out.print("Eleccion: ");
+                        String subEleccion = scanner.nextLine();
 
-                    if (subEleccion.equals("1") || subEleccion.equals("2")) {
-                        System.out.print("Selecciona el número de la materia: ");
-                        try {
-                            int idx = Integer.parseInt(scanner.nextLine()) - 1;
-                            if (idx >= 0 && idx < Cloud.getMochila().size()) {
-                                Materia seleccionada = Cloud.getMochila().get(idx);
+                        if (subEleccion.equals("1") || subEleccion.equals("2")) {
+                            System.out.print("Selecciona el número de la materia: ");
+                            try {
+                                int idx = Integer.parseInt(scanner.nextLine()) - 1;
+                                if (idx >= 0 && idx < Cloud.getMochila().size()) {
+                                    Materia seleccionada = Cloud.getMochila().get(idx);
 
-                                if (subEleccion.equals("1")) { //equipar
-                                    if (!seleccionada.isEquipado()) {
-                                        Cloud.getBusterSword().equiparMateria(seleccionada);
-                                    } else {
-                                        System.out.println("La materia ya esta equipada.");
+                                    if (subEleccion.equals("1")) { //equipar
+                                        if (!seleccionada.isEquipado()) {
+                                            Cloud.getBusterSword().equiparMateria(seleccionada);
+                                            System.out.println("\n----------------------------");
+                                        } else {
+                                            System.out.println("La materia ya esta equipada.\n----------------------------");
+                                        }
+                                    } else { //desequipar
+                                        if (seleccionada.isEquipado()) {
+                                            Cloud.getBusterSword().desequiparMateria(seleccionada);
+                                        } else {
+                                            System.out.println("La materia no esta equipada.\n----------------------------");
+                                        }
                                     }
-                                } else { //desequipar
-                                    if (seleccionada.isEquipado()) {
-                                        Cloud.getBusterSword().desequiparMateria(seleccionada);
-                                    } else {
-                                        System.out.println("La materia no estaa equipada.");
-                                    }
+                                } else {
+                                    System.out.println("Numero fuera de rango.");
+                                    mochila = false;
                                 }
-                            } else {
-                                System.out.println("Numero fuera de rango.");
+                            } catch (NumberFormatException e) {
+                                System.out.println("Entrada no valida.");
+                                mochila = false;
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Entrada no valida. Por favor, ingresa un numero.");
+                        } else{
+                            mochila = false;
                         }
                     }
                 }
@@ -200,11 +211,13 @@ public class Main{
                 Cloud.setHpActual(Cloud.getHpMaximo());
                 System.out.println("Has sido rescatado con diversas heridas... regresas al Sector 7... afortunadamente alli curan tus heridas... pero perdiste toda tu chatarra... y las materias que no tenias equipadas... que triste...");
                 Cloud.setChatarra(0); 
-                for (Materia m : Cloud.getMochila()) {
+                Cloud.getMochila().removeIf(m -> {
                     if (!m.isEquipado()) {
                         System.out.println("Has perdido " + m.getNombre() + "...");
+                        return true; //adios
                     }
-                }
+                    return false; //se queda
+                });
             }
 
         }

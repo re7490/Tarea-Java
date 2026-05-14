@@ -19,7 +19,7 @@ public class Gongaga extends Zona{
         List<Enemigo> grupoEmboscada = new ArrayList<>();
         Random rand = new Random();
 
-        // cantidad de enemigos en la emboscada
+        //cantidad de enemigos en la emboscada
         int probCantidad = rand.nextInt(100);
         int cantidad = 1; // 60% de probabilidad
 
@@ -32,8 +32,8 @@ public class Gongaga extends Zona{
         for (int i = 0; i < cantidad; i++){
             int tipoMonstruo = rand.nextInt(3);
 
-            // XP y chatarra random
-            int xpAleatoria = rand.nextInt(((100 - 80) + 1) + 80);
+            //XP y chatarra random
+            int xpAleatoria = rand.nextInt(100 - 80 + 1) + 80;
             int chatarraAleatoria = rand.nextInt(((75 - 50) + 1) + 50);
             if (tipoMonstruo == 0){ //Planta Carnivora
                 Estadisticas statsPlanta = new Estadisticas(80, 80, 0, 0, 15, 0);//vida actual, vida maxima, MP actual, MP maximo, fuerza, magia
@@ -114,7 +114,7 @@ public class Gongaga extends Zona{
                 Elemento aleatorio = opciones[rand.nextInt(opciones.length)];
                 Materia nuevaMateria = new Materia("Materia " + aleatorio, aleatorio);
                 Cloud.getMochila().add(nuevaMateria);
-                System.out.println("Explorando por la zona has encontrado una materia de " + aleatorio + " que suerte que tienes");
+                System.out.println("Explorando por la zona has encontrado una materia de " + aleatorio + " que suerte que tienes. La guardas en tu mochila por si te sirve para algo...");
                 break; // Salimos del ciclo de exploración después de encontrar botín
             } else {
                 //emboscada
@@ -209,9 +209,9 @@ public class Gongaga extends Zona{
                                             if (multiplicador == 0.0) {
                                                 System.out.println("¡" + objetivo.getNombre() + " es inmune a este elemento! No le haces daño.");
                                             } else if (multiplicador == 0.5) {
-                                                System.out.println("¡" + objetivo.getNombre() + " resiste este elemento! Le haces menos daño de lo normal...Causas " + danoFinal +"/" + danoMagico + " de daño mágico.");
+                                                System.out.println("¡" + objetivo.getNombre() + " resiste este elemento! Le haces menos daño de lo normal...Causas " + danoFinal + " de daño mágico.");
                                             } else if (multiplicador == 2.0) {
-                                                System.out.println("¡" + objetivo.getNombre() + " es debil a este elemento! Le haces más daño de lo normal...Causas " + danoFinal + "/" + danoMagico + " de daño mágico.");
+                                                System.out.println("¡" + objetivo.getNombre() + " es debil a este elemento! Le haces más daño de lo normal...Causas " + danoFinal  + " de daño mágico.");
                                             }
                                             Cloud.sumarLimite(danoFinal / 2);
                                             turnoFinalizado = true;

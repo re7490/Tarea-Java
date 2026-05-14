@@ -61,8 +61,8 @@ public class Jugador{
             stats.setMagia(stats.getMagia() + 6);
             
             //regeneramos un poco al subir de nivel
-            stats.setHpActual(stats.getHpActual() + 10);
-            stats.setMpActual(stats.getMpActual() + 5);
+            stats.setHpActual(Math.min(stats.getHpActual() + 10, this.getHpMaximo()));
+            stats.setMpActual(Math.min(stats.getMpActual() + 5, this.getMpMaximo()));
 
             System.out.println("¡Subiste al nivel " + this.nivel + "!");
             xpNecesaria = 10 * this.nivel;
