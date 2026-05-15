@@ -10,7 +10,7 @@ En este, el jugador controla a Cloud, quien debera abrirse camino a traves de di
 El juego es por turnos y consta de 3 Zonas (Sector7, Gongaga, Nuecleo del Planeta), en cada zona el jugador debera elegir que hacer: explorar la zona, viajar a otra zona, revisar su mochila (inventario), descansar (exclusivo de Sector7) o cerrar el juego.
 
 
-Para el correcto funcionamiento del programa (compilación y ejecución), todos los archivos adjuntos (.java, Makefile y carpetas) a este README deben estar en la misma carpeta, además de ser operado en Linux Debian o WSL Debian. Luego, abra la terminal dentro de la misma carpeta y ejecute lo siguiente: 
+Para el correcto funcionamiento del programa (compilación y ejecución), todos los archivos adjuntos (.java, Makefile y carpetas) a este README deben estar en la misma carpeta, además de ser operado idealmente en WSL Debian (donde se trabajo y ejecuto). Luego, abra la terminal dentro de la misma carpeta y ejecute lo siguiente: 
     
     java -version
     make -version
