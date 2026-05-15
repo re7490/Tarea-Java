@@ -74,7 +74,7 @@ public class NucleoPlaneta extends Zona{
         }
         if (respuesta.equalsIgnoreCase("s")) {
             System.out.println("Aceptas la propuesta de Sephiroth. Te retiras de la Zona del combate para prepararte mejor.\n");
-            return; // Salir del método para permitir que el jugador se prepare
+            return; //salir/volver para permitir que el jugador se prepare
         } 
         System.out.println("Rechazas la propuesta... Sephiroth sonrie levemente y avanza lentamente hacia ti... te desea suerte...\n");
         while (Cloud.getStats().getHpActual() > 0 && sephiroth.getStats().getHpActual() > 0) {

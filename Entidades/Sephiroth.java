@@ -33,7 +33,7 @@ public class Sephiroth extends Enemigo{
      * @param Cloud El jugador sufrira el daño.
      */
     public void lanzarSuperNova(Jugador Cloud){
-        Cloud.getStats().recibirDMG(9999); // Daño masivo
+        Cloud.getStats().recibirDMG(9999); //daño masivo
         System.out.println("!!! SEPHIROTH LANZA SUPERNOVA !!!");
         System.out.println("La energia colapsa sobre Cloud, aniquilandolo instantaneamente.");
     }

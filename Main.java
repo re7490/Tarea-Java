@@ -15,7 +15,7 @@ public class Main{
      */
     public static void main(String[] args){
 
-        //Iniciamos tienda y zonas antes de logica jugable
+        //iniciamos tienda y zonas antes de logica jugable
         //instancia tienda
         List<Mejora> inventarioTienda = new ArrayList<>();
         inventarioTienda.add(new Mejora("Mejora de Vitalidad", 100, TipoStat.HP_MAX, 20));
@@ -23,7 +23,6 @@ public class Main{
         inventarioTienda.add(new Mejora("Mejora Física", 150, TipoStat.FUERZA, 10));
 
         List<Materia> poolGongaga = new ArrayList<>();
-        // materia al azar
 
         //instancia zonas
         Sector7 zonaSector7 = new Sector7("Sector 7", 1, inventarioTienda);
@@ -219,7 +218,7 @@ public class Main{
                 Cloud.getMochila().removeIf(m -> {
                     if (!m.isEquipado()) {
                         System.out.println("Has perdido " + m.getNombre() + "...");
-                        return true; //adios
+                        return true; //adios Materia
                     }
                     return false; //se queda
                 });

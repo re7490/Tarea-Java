@@ -45,7 +45,7 @@ public class Gongaga extends Zona{
         for (int i = 0; i < cantidad; i++){
             int tipoMonstruo = rand.nextInt(3);
 
-            //XP y chatarra random
+            //Xp y chatarra random
             int xpAleatoria = rand.nextInt(100 - 80 + 1) + 80;
             int chatarraAleatoria = rand.nextInt(((75 - 50) + 1) + 50);
             if (tipoMonstruo == 0){ //Planta Carnivora
@@ -98,7 +98,7 @@ public class Gongaga extends Zona{
                 ArrayList<Elemento> inmunidadesRobot = new ArrayList<>();
 
                 ArrayList<Elemento> resistenciasRobot = new ArrayList<>();
-                resistenciasRobot.add(Elemento.FISICO); //mas q nada visual... pq el enemigo tiene resistencia a ataques fisicos (1)
+                resistenciasRobot.add(Elemento.FISICO); //... el enemigo tiene resistencia a ataques fisicos (1)
                 resistenciasRobot.add(Elemento.HIELO);
 
                 EnemigoSalvaje robotCentinela = new EnemigoSalvaje(
@@ -135,13 +135,13 @@ public class Gongaga extends Zona{
                 Materia nuevaMateria = new Materia("Materia " + aleatorio, aleatorio);
                 Cloud.getMochila().add(nuevaMateria);
                 System.out.println("Explorando por la zona has encontrado una materia de " + aleatorio + " que suerte que tienes. La guardas en tu mochila por si te sirve para algo...");
-                break; // Salimos del ciclo de exploración después de encontrar botín
+                break; //volvemos al encontrar materua
             } else {
                 //emboscada
                 List<Enemigo> enemigos = generarGrupoEnemigo();
                 System.out.println("Exploras por la zona y de repente... ¡Una Emboscada! Te enfrentas a " + enemigos.size() + " enemigos.");
                 iniciarCombate(Cloud, enemigos);
-                break; // Salimos del ciclo de exploración después del combate
+                break; //salimos despues del combate
             }
         }
     }
@@ -188,7 +188,7 @@ public class Gongaga extends Zona{
                         if (accion.equals("1")) {
                             int dano = Cloud.getBusterSword().calcularDanoFisico();
                             if (objetivo.getNombre().equals("Robot Centinela")) {
-                                dano = dano/2; // Resistencia a fisico
+                                dano = dano/2; //resistencia a fisico
                                 System.out.println("¡" + objetivo.getNombre() + " resiste el daño físico! Causas solo " + dano + " de daño.");
                             } else {
                                  System.out.println("Atacas a " + objetivo.getNombre() + " causando " + dano + " de daño.");
@@ -317,7 +317,7 @@ public class Gongaga extends Zona{
                 }
                 if (ataqueConjunto){
                     for (Enemigo e : enemigos) {
-                        e.atacar(Cloud); // Cada enemigo ataca a Cloud
+                        e.atacar(Cloud); //cada enemigo ataca a Cloud
                         Cloud.sumarLimite(e.getStats().getFuerza() / 2);
                     }
                 } else {

@@ -75,7 +75,7 @@ Nucleo del Planeta: Al explorar la zona, el jugador se encontrara con Sephiroth,
 
 -------------STATS y SUBIDA DE NIVEL---------------------
 
-El jugador iniciara con nivel 1 y estadisticas base: (200, 50, 15, 15); //vida actual y maxima, MP actual y maximo, fuerza, magia.
+El jugador iniciara con nivel 1 y estadisticas base: 200, 50, 15, 15 (vida actual y maxima, MP actual y maximo, fuerza, magia);
 Al derrotar enemigos, conseguira Xp, que lo ayudaran a subir de nivel y subir sus estadisticas, al momento de subir de nivel, Cloud recuperara un poco de vida y Mp.
 
 -------------ENEMIGOS---------------------
