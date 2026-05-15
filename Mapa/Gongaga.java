@@ -188,7 +188,7 @@ public class Gongaga extends Zona{
                         if (accion.equals("1")) {
                             int dano = Cloud.getBusterSword().calcularDanoFisico();
                             if (objetivo.getNombre().equals("Robot Centinela")) {
-                                dano = (int) (dano/2); // Resistencia a fisico
+                                dano = dano/2; // Resistencia a fisico
                                 System.out.println("¡" + objetivo.getNombre() + " resiste el daño físico! Causas solo " + dano + " de daño.");
                             } else {
                                  System.out.println("Atacas a " + objetivo.getNombre() + " causando " + dano + " de daño.");
@@ -318,14 +318,14 @@ public class Gongaga extends Zona{
                 if (ataqueConjunto){
                     for (Enemigo e : enemigos) {
                         e.atacar(Cloud); // Cada enemigo ataca a Cloud
-                        Cloud.sumarLimite((int) (e.getStats().getFuerza() / 2));
+                        Cloud.sumarLimite(e.getStats().getFuerza() / 2);
                     }
                 } else {
                     int atacante = r.nextInt(enemigos.size());
                     Enemigo atacanteEnemigo = enemigos.get(atacante);
                     System.out.println(atacanteEnemigo.getNombre() + " ataca a Cloud!");
                     atacanteEnemigo.atacar(Cloud);
-                    Cloud.sumarLimite((int) (atacanteEnemigo.getStats().getFuerza() / 2));
+                    Cloud.sumarLimite(atacanteEnemigo.getStats().getFuerza() / 2);
                 }   
             }
         }

@@ -153,7 +153,7 @@ public class Jugador{
             int costeMP = 10 + (5 * n);
             if (costeMP > stats.getMpActual()) return 0;
 
-            int danoMagico = (int) (stats.getMagia() * (1 + (n/2)));
+            int danoMagico = stats.getMagia() * (1 + (n/2));
         
             stats.setMpActual(stats.getMpActual() - costeMP); //aplicamos coste  dataque
             return danoMagico;
@@ -167,7 +167,7 @@ public class Jugador{
          */
         public int calcularDanoFisico(){
             int dano = (int) (stats.getFuerza() * 1.25);
-            sumarLimite((int) (dano/5));
+            sumarLimite(dano/5);
             return dano;
         }
         

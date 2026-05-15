@@ -48,7 +48,7 @@ public class EnemigoSimulador extends Enemigo{
         int danoBase = (int) (this.stats.getFuerza() * 1.25);
         Cloud.getStats().recibirDMG(danoBase);
         System.out.println(this.nombre + " ataca a Cloud causando " + danoBase + " de daño.\n----------------------------");
-        Cloud.sumarLimite((int) (danoBase / 2));
+        Cloud.sumarLimite(danoBase / 2);
     }
 
     /**

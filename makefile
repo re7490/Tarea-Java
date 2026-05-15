@@ -2,6 +2,7 @@
 JCC = javac
 JFLAGS = -g
 JVM = java
+JFLAGS = -g -Xlint:all
 MAIN = Main
 
 
@@ -10,7 +11,7 @@ default: compile
 compile:
 	$(JCC) $(JFLAGS) Main.java Componentes/*.java Entidades/*.java Mapa/*.java
 
-# Regla para compilar (si hay cambios) y luego ejecutar el juego
+# Regla para compilara
 run: compile
 	$(JVM) $(MAIN)
 
